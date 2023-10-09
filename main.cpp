@@ -1,5 +1,5 @@
 
-#include "Autocomplete.h"
+#include "PrefixMatcher.h"
 
 #include <string>
 #include <vector>
@@ -7,19 +7,12 @@
 
 int main() {
 
-    Autocomplete* ac = new Autocomplete();
+    PrefixMatcher* ac = new PrefixMatcher();
 
-    ac->insert("cat");
-    ac->insert("boat");
-    ac->insert("car");
-    ac->insert("c");
+    std::cout << ac->checkWord("001100") << std::endl;
 
-    vector<string> print = ac->getSuggestions("b");
+    ac->insert("001100", 1);
+    ac->insert("0111001", 2);
 
-// print
-    std::cout << "The vector elements are : ";
-
-    for(int i=0; i < print.size(); i++) {
-        std::cout << print.at(i) << ' ';
-    }
+    std::cout << ac->checkWord("0011001") << std::endl;
 }
