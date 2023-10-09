@@ -54,12 +54,12 @@ void PrefixMatcher::insert(string address, int routerNumber) {
     temp->routerNumber = routerNumber;
 }
 
-int PrefixMatcher::checkWord(string word) {
+int PrefixMatcher::selectRouter(string networkAddress) {
     struct TrieNode *temp = root;
  
-    for (int i = 0; i < word.length(); i++)
+    for (int i = 0; i < networkAddress.length(); i++)
     {
-        int index = word[i];
+        int index = networkAddress[i];
         if (!temp->children[index])
             return temp->routerNumber;
  
