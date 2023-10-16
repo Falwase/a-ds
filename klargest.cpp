@@ -1,10 +1,12 @@
 
-#include "Heap.tpp" 
 #include <queue>
+#include <vector>
+
+using namespace std;
 
 int kth_largest(vector<int> values, int k) {
 
-    priority_queue<int> pq;
+    std::priority_queue<int> pq;
 
     for(int i = 0; i < values.size(); i++) {
         pq.push(values[i]);
@@ -16,3 +18,4 @@ int kth_largest(vector<int> values, int k) {
 
     return pq.top();
 }
+
