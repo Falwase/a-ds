@@ -29,27 +29,34 @@ int DocumentManager::search(string name) {
 bool DocumentManager::borrowDocument(int docid, int patronID) {
 
     //check for patron
-    int patronIndex = 0;
-    for (int i = 0; i < users.size(); i++) {
+    int patronIndex;
+
+    int i = 0;
+    while(1) {
+        if (i == users.size()) {
+            return false;
+        }
+
         if(patronID == users[i].getId()) {
             patronIndex = i;
-            continue;
+            break;
         }
-    }
-    if (patronIndex == 0) {
-        return false;
+        i++;
     }
 
     //check for document
-    int libIndex = 0;
-    for (int i = 0; i < lib.size(); i++) {
+    int libIndex;
+    i = 0;
+    while(1) {
+        if (i == lib.size()) {
+            return false;
+        }
+
         if(docid == lib[i].getId()) {
             libIndex = i;
-            continue;
+            break;
         }
-    }
-    if (libIndex == 0) {
-        return false;
+        i++;
     }
 
     //checks for licesence limit
@@ -59,32 +66,56 @@ bool DocumentManager::borrowDocument(int docid, int patronID) {
 
     users[patronIndex].bookList.push_back(lib[libIndex]);
     lib[libIndex].borrow();
+    return true;
 
 }  // returns true if document is borrowed, false if it can not be borrowed (invalid patronid or the number of copies current borrowed has reached the license limit)
 
 void DocumentManager::returnDocument(int docid, int patronID) {
 
     //check for patron
-    int patronIndex = 0;
-    for (int i = 0; i < users.size(); i++) {
+    int patronIndex;
+
+    int i = 0;
+    while(1) {
+        if (i == users.size()) {
+            return;
+        }
+
         if(patronID == users[i].getId()) {
             patronIndex = i;
-            continue;
+            break;
         }
-    }
-    if (patronIndex == 0) {
-        return false;
+        i++;
     }
 
     //check for document
-    int libIndex = 0;
-    for (int i = 0; i < lib.size(); i++) {
+    int libIndex;
+
+    i = 0;
+    while(1) {
+        if (i == users[patronIndex].bookList.size()) {
+            return;
+        }
+
+        if(docid == users[patronIndex].bookList[i].getId()) {
+            libIndex = i;
+            break;
+        }
+        i++;
+    }
+    users[patronIndex].bookList.erase( users[patronIndex].bookList.begin() + libIndex);  
+
+    i = 0;
+    while(1) {
+        if (i == lib.size()) {
+            return;
+        }
+
         if(docid == lib[i].getId()) {
             libIndex = i;
-            continue;
+            break;
         }
+        i++;
     }
-    if (libIndex == 0) {
-        return false;
-    }
+    lib[libIndex].doReturn();
 }

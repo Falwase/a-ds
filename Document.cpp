@@ -39,6 +39,10 @@ public:
     void borrow() {
         copies += 1;
     }
+
+    void doReturn() {
+        copies -= 1;
+    }
 };
 
 #endif
